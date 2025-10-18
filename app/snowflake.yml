@@ -1,0 +1,28 @@
+definition_version: 2
+entities:
+  dev_app:
+    type: streamlit
+    identifier:
+      name: dev_streamlit_app
+      schema: PUBLIC
+      database: KAGGLE_DATABASE
+    title: Equipment Failure Analysis (dev)
+    stage: streamlit_stage
+    query_warehouse: COMPUTE_WH
+    main_file: streamlit_app.py
+    artifacts:
+      - environment.yml
+      - streamlit_app.py
+  prod_app:
+    type: streamlit
+    identifier:
+      name: prod_streamlit_app
+      schema: PUBLIC
+      database: KAGGLE_DATABASE
+    title: Equipment Failure Analysis
+    stage: streamlit_stage
+    query_warehouse: COMPUTE_WH
+    main_file: streamlit_app.py
+    artifacts:
+      - environment.yml
+      - streamlit_app.py

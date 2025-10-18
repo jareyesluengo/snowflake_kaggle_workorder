@@ -1,0 +1,10 @@
+snowflake-cli-labs
+snowflake-snowpark-python
+snowflake-ml-python
+streamlit
+plotly
+seaborn
+matplotlib
+pandas
+openpyxl
+numpy

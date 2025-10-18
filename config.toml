@@ -1,0 +1,4 @@
+default_connection_name = "kaggle-connection"
+
+[connections.kaggle-connection]
+authenticator = "snowflake"

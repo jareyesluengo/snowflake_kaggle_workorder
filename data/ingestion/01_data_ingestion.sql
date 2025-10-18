@@ -1,0 +1,36 @@
+USE ROLE ACCOUNTADMIN;
+
+-- create database and schema --
+CREATE OR REPLACE DATABASE KAGGLE_DATABASE;
+CREATE OR REPLACE SCHEMA KAGGLE_DATABASE.MAINTENANCE_DATASETS;
+
+-- file ingestion --
+USE DATABASE KAGGLE_DATABASE;
+CREATE OR REPLACE FILE FORMAT PUBLIC.CSV_FILE_FORMAT 
+type = 'csv'
+skip_header=1
+-- ESCAPE_UNENCLOSED_FIELD = '"'
+FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+RECORD_DELIMITER = '\n';
+
+-- create stage --
+CREATE OR REPLACE STAGE KAGGLE_DATABASE.PUBLIC.LOCAL_FILE_STAGE;
+PUT file:'~/snowflake_kaggle_workorder/data/input/mwo_dataset.csv' @PUBLIC.FILE_STAGE
+OVERWRITE=TRUE;
+
+-- create table --
+CREATE OR REPLACE TABLE KAGGLE_DATABASE.MAINTENANCE_DATASETS.WORK_ORDERS_TABLE (
+ mach           VARCHAR(3)
+,date_received  DATE
+,issue          VARCHAR(16777216)
+,info           VARCHAR(16777216)
+,tech           VARCHAR(16777216)
+)
+COMMENT = 'https://www.kaggle.com/datasets/tinhban/maintenance-work-orders-dataset'
+;
+
+-- copy csv to table --
+COPY INTO MAINTENANCE_DATASETS.WORK_ORDERS_TABLE
+FROM @PUBLIC.file_stage/mwo_dataset.csv.gz
+FILE_FORMAT=PUBLIC.CSV_FILE_FORMAT ;
+
